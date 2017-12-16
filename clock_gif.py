@@ -30,7 +30,7 @@ def hex_to_rgb(value):
   lv = len(value)
   return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
-#hexa =  sys.argv[1]
+hexa =  sys.argv[1]
 
 #r = sys.argv[1]
 #g = sys.argv[2]
@@ -61,10 +61,13 @@ while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-maste
 
         image = Image.new("1", (30, 12)) # Can be larger than matrix if wanted!!
         image = image.convert("RGBA")
-	draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
+		draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
+
         curDate = datetime.datetime.now().strftime("%H:%M")
-#        draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
-        draw.text((0, 0), curDate, fill=(128, 128, 128))
+        if len(sys.argv) > 1 :
+	        draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
+        else :
+    	    draw.text((0, 0), curDate, fill=(128, 128, 128))
 #        draw.text((0, 0), curDate, fill=(int(float(r)), int(float(g)), int(float(b))))
         matrix.SetImage(image.im.id, 0, 0)
 
