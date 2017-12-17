@@ -30,7 +30,7 @@ def hex_to_rgb(value):
   lv = len(value)
   return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
-hexa =  sys.argv[1]
+
 
 #r = sys.argv[1]
 #g = sys.argv[2]
@@ -44,14 +44,17 @@ hexa =  sys.argv[1]
 matrix = Adafruit_RGBmatrix(32, 2)
 matrix.SetWriteCycles(2)
 
-totoro1 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/testTotoro/testtotorogif_frame_1.jpg")
-totoro1.load()          # Must do this before SetImage() calls
+gif = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Gifs")[0]
+print (gif)
 
-totoro2 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/testTotoro/testtotorogif_frame_2.jpg")
-totoro2.load()          # Must do this before SetImage() calls
+pict1 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/1.jpg")
+pict1.load()          # Must do this before SetImage() calls
 
-totoro3 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/testTotoro/testtotorogif_frame_3.jpg")
-totoro3.load()          # Must do this before SetImage() calls
+pict2 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/2.jpg")
+pict2.load()          # Must do this before SetImage() calls
+
+pict3 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/3.jpg")
+pict3.load()          # Must do this before SetImage() calls
 
 
 
@@ -59,36 +62,38 @@ totoro3.load()          # Must do this before SetImage() calls
 while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/stopLedScript.txt')) : # Start off top-left, move off bottom-right
 	# IMPORTANT: *MUST* pass image ID, *NOT* image object!
 
+	hexa = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Color")[0]
+
         image = Image.new("1", (30, 12)) # Can be larger than matrix if wanted!!
         image = image.convert("RGBA")
-		draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
+	draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
 
         curDate = datetime.datetime.now().strftime("%H:%M")
-        if len(sys.argv) > 1 :
-	        draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
-        else :
-    	    draw.text((0, 0), curDate, fill=(128, 128, 128))
+
+
+	draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
+
 #        draw.text((0, 0), curDate, fill=(int(float(r)), int(float(g)), int(float(b))))
         matrix.SetImage(image.im.id, 0, 0)
 
 
         for n in range(0, 16) :
             if n % 8 == 0:
-                matrix.SetImage(totoro1.im.id, 31, 0)
-            if n % 8 == 1:
-                matrix.SetImage(totoro2.im.id, 31, 0)
-            if n % 8 == 2:
-                matrix.SetImage(totoro1.im.id, 31, 0)
-            if n % 8 == 3:
-                matrix.SetImage(totoro2.im.id, 31, 0)
-            if n % 8 == 4:
-                matrix.SetImage(totoro1.im.id, 31, 0)
-            if n % 8 == 5:
-                matrix.SetImage(totoro3.im.id, 31, 0)
-            if n % 8 == 6:
-                matrix.SetImage(totoro1.im.id, 31, 0)
-            if n % 8 == 7:
-                matrix.SetImage(totoro3.im.id, 31, 0)
+                matrix.SetImage(pict1.im.id, 31, 0)
+            elif n % 8 == 1:
+                matrix.SetImage(pict2.im.id, 31, 0)
+            elif n % 8 == 2:
+                matrix.SetImage(pict1.im.id, 31, 0)
+            elif n % 8 == 3:
+                matrix.SetImage(pict2.im.id, 31, 0)
+            elif n % 8 == 4:
+                matrix.SetImage(pict1.im.id, 31, 0)
+            elif n % 8 == 5:
+                matrix.SetImage(pict3.im.id, 31, 0)
+            elif n % 8 == 6:
+                matrix.SetImage(pict1.im.id, 31, 0)
+            elif n % 8 == 7:
+                matrix.SetImage(pict3.im.id, 31, 0)
             time.sleep(0.5)
 
         matrix.Clear()	
