@@ -42,65 +42,49 @@ def hex_to_rgb(value):
 
 # Rows and chain length are both required parameters:
 matrix = Adafruit_RGBmatrix(32, 2)
-matrix.SetWriteCycles(2)
-
-gif = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Gifs")[0]
-print (gif)
-
-pict1 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/1.jpg")
-pict1.load()          # Must do this before SetImage() calls
-
-pict2 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/2.jpg")
-pict2.load()          # Must do this before SetImage() calls
-
-pict3 = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/3.jpg")
-pict3.load()          # Must do this before SetImage() calls
+matrix.SetWriteCycles(3)
 
 
 
 # Then scroll image across matrix...
-while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/stopLedScript.txt')) : # Start off top-left, move off bottom-right
+while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/stopLedScript.txt')) :
+  # Start off top-left, move off bottom-right
 	# IMPORTANT: *MUST* pass image ID, *NOT* image object!
 
-	hexa = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Color")[0]
+        gif = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Gifs")[0]
+     #   print (gif)
 
-        image = Image.new("1", (30, 12)) # Can be larger than matrix if wanted!!
-        image = image.convert("RGBA")
-	draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
+        gifDirectory = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif)
+      #  print len(gifDirectory)
+
+          
+        hexa = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Color")[0]
+
 
         curDate = datetime.datetime.now().strftime("%H:%M")
 
+        image = Image.new("1", (30, 12)) # Can be larger than matrix if wanted!!
+        image = image.convert("RGBA")
+        draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
 
 	draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
 
 #        draw.text((0, 0), curDate, fill=(int(float(r)), int(float(g)), int(float(b))))
+     #   matrix.Clear()	
+
         matrix.SetImage(image.im.id, 0, 0)
 
 
-        for n in range(0, 16) :
-            if n % 8 == 0:
-                matrix.SetImage(pict1.im.id, 31, 0)
-            elif n % 8 == 1:
-                matrix.SetImage(pict2.im.id, 31, 0)
-            elif n % 8 == 2:
-                matrix.SetImage(pict1.im.id, 31, 0)
-            elif n % 8 == 3:
-                matrix.SetImage(pict2.im.id, 31, 0)
-            elif n % 8 == 4:
-                matrix.SetImage(pict1.im.id, 31, 0)
-            elif n % 8 == 5:
-                matrix.SetImage(pict3.im.id, 31, 0)
-            elif n % 8 == 6:
-                matrix.SetImage(pict1.im.id, 31, 0)
-            elif n % 8 == 7:
-                matrix.SetImage(pict3.im.id, 31, 0)
-            time.sleep(0.5)
+        for n in range(1, len(gifDirectory)+ 1) :
+          pict = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/" + str(n) + ".jpg")
+          pict.load()          # Must do this before SetImage() calls
+          matrix.SetImage(pict.im.id, 31, 0)
+          time.sleep(0.5)
 
-        matrix.Clear()	
-	del draw
-	del image
 
-		
+        del draw
+        del image
+        
 
 
 
