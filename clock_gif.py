@@ -54,7 +54,7 @@ while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-maste
         gif = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Gifs")[0]
      #   print (gif)
 
-        gifDirectory = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif)
+        gifDirectory = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifDirectory/" + gif)
       #  print len(gifDirectory)
 
           
@@ -76,7 +76,7 @@ while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-maste
 
 
         for n in range(1, len(gifDirectory)+ 1) :
-          pict = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/" + gif + "/" + str(n) + ".jpg")
+          pict = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifDirectory/" + gif + "/" + str(n) + ".jpg")
           pict.load()          # Must do this before SetImage() calls
           matrix.SetImage(pict.im.id, 31, 0)
           time.sleep(0.5)
