@@ -46,11 +46,8 @@ matrix.SetWriteCycles(3)
 
 
 
-# Then scroll image across matrix...
-while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/stopLedScript.txt')) :
-  # Start off top-left, move off bottom-right
-	# IMPORTANT: *MUST* pass image ID, *NOT* image object!
-
+while (1) :
+  if not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/stopLedScript.txt')):
         gif = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Gifs")[0]
      #   print (gif)
 
@@ -67,10 +64,10 @@ while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-maste
         image = image.convert("RGBA")
         draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
 
-	draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
+    draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
 
 #        draw.text((0, 0), curDate, fill=(int(float(r)), int(float(g)), int(float(b))))
-     #   matrix.Clear()	
+     #   matrix.Clear() 
 
         matrix.SetImage(image.im.id, 0, 0)
 
@@ -80,12 +77,13 @@ while not (os.path.isfile('/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-maste
           pict.load()          # Must do this before SetImage() calls
           matrix.SetImage(pict.im.id, 31, 0)
           time.sleep(0.5)
-
+          #del pict
 
         del draw
         del image
         
-
+    else:
+      matrix.Clear()
 
 
 matrix.Clear()
