@@ -52,8 +52,7 @@ while (1) :
      #   print (gif)
 
         gifDirectory = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifDirectory/" + gif)
-      #  print len(gifDirectory)
-
+        #print gifDirectory
           
         hexa = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Color")[0]
 
@@ -64,10 +63,10 @@ while (1) :
         image = image.convert("RGBA")
         draw  = ImageDraw.Draw(image)    # Declare Draw instance before prims
 
-    draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
+        draw.text((0, 0), curDate, fill=hex_to_rgb(hexa))
 
-#        draw.text((0, 0), curDate, fill=(int(float(r)), int(float(g)), int(float(b))))
-     #   matrix.Clear() 
+#       draw.text((0, 0), curDate, fill=(int(float(r)), int(float(g)), int(float(b))))
+     #  matrix.Clear() 
 
         matrix.SetImage(image.im.id, 0, 0)
 
@@ -76,14 +75,14 @@ while (1) :
           pict = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifDirectory/" + gif + "/" + str(n) + ".jpg")
           pict.load()          # Must do this before SetImage() calls
           matrix.SetImage(pict.im.id, 31, 0)
-          time.sleep(0.5)
-          #del pict
+          time.sleep(0.1)
+          del pict
 
         del draw
         del image
         
-    else:
-      matrix.Clear()
+  else:
+        matrix.Clear()
 
 
 matrix.Clear()
