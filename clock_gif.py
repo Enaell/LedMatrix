@@ -53,7 +53,9 @@ while (1) :
 
         gifDirectory = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifDirectory/" + gif)
         #print gifDirectory
-          
+        
+        gifSpeed = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifSpeed")[0]
+
         hexa = os.listdir("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/Color")[0]
 
 
@@ -75,7 +77,7 @@ while (1) :
           pict = Image.open("/home/pi/Documents/LEDMatrix/rpi-rgb-led-matrix-master/gifDirectory/" + gif + "/" + str(n) + ".jpg")
           pict.load()          # Must do this before SetImage() calls
           matrix.SetImage(pict.im.id, 31, 0)
-          time.sleep(0.1)
+          time.sleep(gifSpeed * 0.01)
           del pict
 
         del draw
